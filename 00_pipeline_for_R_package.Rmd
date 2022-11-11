@@ -1,0 +1,67 @@
+---
+title: "00_pipeline_for_R_package"
+output: html_document
+date: '2022-10-14'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(devtools)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+use_r("function_name")
+
+load_all() ## Ctrl+Shilt+L
+source("R/strsplit1.R")
+exists("tt_enrichGO", where = globalenv(), inherits = FALSE)
+exists("tt_wt", where = globalenv(), inherits = FALSE)
+exists("strsplit1", where = globalenv(), inherits = FALSE)
+check()
+
+use_mit_license()
+
+## 写帮助文档：光标放在函数前，点击Code > Insert roxygen skeleton
+document() #Ctrl+Shift+D
+
+## 查看NAMESPACE
+check()
+install()
+
+use_testthat()
+
+use_test("strsplit1")
+test()
+
+## 使用其他包的函数
+use_package("stringr")
+use_package("ggplot2")
+use_package("Rsubread")
+use_package("DESeq2")
+use_package("circlize")
+use_package("ComplexHeatmap")
+
+## 函数改名
+rename_files("strsplit1", "str_split_one")
+
+use_github()
+use_readme_rmd()
+
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
