@@ -1,4 +1,4 @@
-tt_DEG_heatmap <- function(filter,i,j,tpm_matrix,meta_data,lfcThreshold,
+tt_DEG_heatmap <- function(filter,i,j,tpm_matrix,meta_data,save_dir,lfcThreshold,
                            name="z-score",
                            show_column_names = TRUE,show_row_names=FALSE,
                            cluster_rows = TRUE,cluster_columns = FALSE,
@@ -29,11 +29,11 @@ tt_DEG_heatmap <- function(filter,i,j,tpm_matrix,meta_data,lfcThreshold,
                                             width = heatmap_width,
                                             col=color)
 
-  if (!file.exists(paste0("03_DEG_heatmap/filter_",lfcThreshold))){
-    dir.create(paste0("03_DEG_heatmap/filter_",lfcThreshold))
+  if (!file.exists(paste0(save_dir,"/filter_",lfcThreshold))){
+    dir.create(paste0(save_dir,"/filter_",lfcThreshold))
   }
 
-  pdf(paste0("03_DEG_heatmap/filter_",lfcThreshold,"/heatmap_",i,"_",j,name_suffix,".pdf"),width = pdf_width)
+  pdf(paste0(save_dir,"/filter_",lfcThreshold,"/heatmap_",i,"_",j,name_suffix,".pdf"),width = pdf_width)
   print(heatmap_filter)
   dev.off()
 }

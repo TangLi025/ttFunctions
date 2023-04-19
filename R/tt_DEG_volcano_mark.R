@@ -1,22 +1,16 @@
-tt_DEG_volcano <- function(res_sample,i,j,save_dir,
+tt_DEG_volcano_mark <- function(res_sample,i,j,save_dir,
                            lfcThreshold,padj=0.05,padj_limit=20,
-                           padj_label=10,lfc_label=10,
+                           label_genes,
                           name_suffix=NULL,
                           pdf_width=NULL,pdf_height=NULL){
 
-  #volcano_color <- c(UP = alpha("#C01623", 0.7),DOWN = alpha("#4431A5", 0.7),NC=alpha("#E5E1DD", 0.7))
   volcano_color <- c(UP = alpha("#CC0000", 0.7),DOWN = alpha("#2f5688", 0.7),NC=alpha("#BBBBBB", 0.7))
 
   res_sample$express <- ifelse(res_sample$log2FoldChange>lfcThreshold & res_sample$padj<padj,"UP",
                                ifelse(res_sample$log2FoldChange< -lfcThreshold & res_sample$padj<padj,"DOWN","NC"))
   res_up_gene <- res_sample[res_sample$express=="UP",]
-  padj_label_up <- head(rownames(res_up_gene[order(res_up_gene$padj),]),padj_label)
-  lfc_label_up <- head(rownames(res_up_gene[order(res_up_gene$log2FoldChange,decreasing =T),]),lfc_label)
   res_down_gene <- res_sample[res_sample$express=="DOWN",]
-  padj_label_down <- head(rownames(res_down_gene[order(res_down_gene$padj),]),padj_label)
-  lfc_label_down <- head(rownames(res_down_gene[order(res_down_gene$log2FoldChange,decreasing =F),]),lfc_label)
-  label_genes <- c(padj_label_up,padj_label_down,lfc_label_up,lfc_label_down)
-  label_genes <- label_genes[!duplicated(label_genes)]
+  label_genes <- label_genes[label_genes %in% rownames(res_sample)]
   res_sample[label_genes,"volcano_label"] <- label_genes
   p <- ggplot2::ggplot(as.data.frame(res_sample))+
     ggplot2::geom_point(mapping=aes(x=log2FoldChange,y=-log10(padj),col=express),size=1,alpha=0.7)+
